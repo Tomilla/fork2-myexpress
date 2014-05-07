@@ -1,0 +1,24 @@
+{
+  "name": "myexpress",
+  "version": "0.0.0",
+  "description": "Building The Express App",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Tomilla/fork2-myexpress.git"
+  },
+  "author": "Gero rim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tomilla/fork2-myexpress/issues"
+  },
+  "homepage": "https://github.com/Tomilla/fork2-myexpress",
+  "devDependencies": {
+    "mocha": "^1.18.2",
+    "chai": "^1.9.1",
+    "supertest": "^0.12.0"
+  }
+}

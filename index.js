@@ -1,16 +1,21 @@
-var express = require( "express" )
-  , http = require( "http")
-  , app = express();
+var http = require( "http");
 
 function myexpress() {
-app.use( function(req, res, next ) {
-  if ( req.url == '/foo' ) {
-    res.statusCode = 404;
-    res.end();
+  var app;
+  app = function( req, res ) {
+    if ( req.url == '/foo' ) {
+      res.statusCode = 404;
+      res.end();
+    }
   }
-});
-app.listen(4000);
-return app;
+  app.listen = function( port, done ) {
+    var server = http.createServer( app );
+    port = port || 4000;
+    return server.listen( port, function(){
+      done();
+    })
+  }
+  return app;
 }
 
 module.exports = myexpress;
