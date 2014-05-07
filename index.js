@@ -5,13 +5,10 @@ function myexpress() {
       res.end();
     }
   }
-
   var http = require( "http");
   var server = http.createServer(responseFrom);
   responseFrom.listen = function( port, done ) {
-    return server.listen( port, function() {
-      done();
-    })
+    return server.listen( port, done());
   }
   return responseFrom;
 }
