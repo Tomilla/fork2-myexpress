@@ -1,14 +1,14 @@
 function myexpress() {
-  function responseFrom( req, res ) {
-    if ( req.url == '/foo' ) {
+  function responseFrom(req, res) {
+    if (req.url == '/foo') {
       res.statusCode = 404;
       res.end();
     }
   }
-  var http = require( "http");
+  var http = require("http");
   var server = http.createServer(responseFrom);
-  responseFrom.listen = function( port, done ) {
-    return server.listen( port, done());
+  responseFrom.listen = function (port, done) {
+    return server.listen(port, done());
   }
   return responseFrom;
 }
