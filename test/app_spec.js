@@ -1,18 +1,19 @@
-var http = require( "http" )
-  , express = require( "../" )
-  , request = require( "supertest")
-  , assert = require( "chai" ).assert;
+var http = require('http')
+  , express = require('../')
+  , request = require('supertest')
+  , assert = require('chai').assert
+  , expect = require('chai').expect;
   //function `express()` shortcut `app` should not declare here
 
-describe( "Implement Empty App", function() {
+describe("Implement Empty App", function() {
   var app = express()
-  describe( "as handler to http.createServer", function() {
+  describe("as handler to http.createServer", function() {
     it ("responds to /foo with 404", function( done ) {
-      var server = http.createServer( app )
-      request( server )
-        .get( '/foo' )
-        .expect( 404 )
-        .end( done )
+      var server = http.createServer(app)
+      request(server)
+        .get('/foo')
+        .expect(404)
+        .end(done)
     });
   });
 
@@ -35,3 +36,17 @@ describe( "Implement Empty App", function() {
     });
   });
 });
+describe( "Manual implement app.use", function(){
+  var app;
+  beforeEach(function(){
+    app = new express();
+  })
+  var m1 = function(req, res, next){};
+  var m2 = function(req, res, next){};
+  it ( "should be able to add middlewares to stack", function(){
+  app.use(m1)
+  app.use(m2)
+  assert.equal(app.stack.length, 2);
+  //expect(app.stack.length).to.be.eql(2);
+ })
+})
