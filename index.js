@@ -1,15 +1,19 @@
-function myexpress() {
-  function responseFrom(req, res) {
-    if (req.url == '/foo') {
-      res.statusCode = 404;
-      res.end();
-    }
+var http = require('http');
+
+function ohmyexpress() {
+  function myexpress(req, res, next) {
+  };
+  myexpress.stack = [];
+
+  // add the middleware
+  myexpress.use = function (middleWare) {
+    this.stack.push(middleWare)
   }
-  var http = require("http");
-  var server = http.createServer(responseFrom);
-  responseFrom.listen = function (port, done) {
-    return server.listen(port, done());
+
+  myexpress.listen = function () {
+    var server = http.createServer(this);
+    return server.listen.apply(server, arguments)
   }
-  return responseFrom;
+  return myexpress;
 }
-module.exports = myexpress;
+module.exports = ohmyexpress;
