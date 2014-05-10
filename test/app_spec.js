@@ -69,10 +69,10 @@ describe("Manual implement calling the middlewares", function () {
   });
   it("Should be able to call `next` to go to the next middleware"
     , function(okay) {
-    var mw_1st = function(req, res, next) {
+    var mw_1st = function (req, res, next) {
       next();
     };
-    var mw_2nd = function(req, res, next) {
+    var mw_2nd = function (req, res, next) {
       res.end("hello from second middleware");
     };
     app.use(mw_1st);
@@ -82,11 +82,11 @@ describe("Manual implement calling the middlewares", function () {
       .expect("hello from second middleware")
       .end(okay)
   });
-  it("Should set `404` at the end of middleware chain", function(okay) {
-    var mw_1st = function(req, res, next) {
+  it("Should set `404` at the end of middleware chain", function (okay) {
+    var mw_1st = function (req, res, next) {
       next();
     };
-    var mw_2nd = function(req, res, next) {
+    var mw_2nd = function (req, res, next) {
      next();
     };
     app.use(mw_1st);
@@ -96,11 +96,110 @@ describe("Manual implement calling the middlewares", function () {
       .expect(404)
       .end(okay)
   });
-  it("Should set `404` if no middleware is add", function(okay) {
+  it("Should set `404` if no middleware is add", function (okay) {
     app.stack;
     request(app)
       .get('/')
       .expect(404)
       .end(okay)
+  });
+});
+describe("Manual implement Error Handling", function () {
+  var app;
+  beforeEach(function () {
+    app = new express();
+  });
+  it("Should return 500 for uncaution", function (okay) {
+    var mw_1st = function (req, res, next) {
+      next(new Error("You found a ton of TNT, GAME OVER"));
+    };
+    app.use(mw_1st);
+    request(app)
+      .get('/')
+      .expect(500)
+      .end(okay)
+  });
+  it("Should return for uncaught error", function (okay) {
+    var mw_1st = function (req, res, next) {
+      //raise new Error("You found a ton of TNT, GAME OVER");
+      throw new Error(", GAME OVER");
+    };
+    app.use(mw_1st);
+    request(app)
+      .get('/')
+      .expect(500)
+      .end(okay)
+  });
+  it("Should skip error handlers when next is called without an error"
+  , function(okay) {
+    var mw_1st = function (req, res, next) {
+      next();
+    };
+    var event_1st = function (err, req, res, next) {
+      //timeout
+    };
+    var mw_2nd = function (req, res, next) {
+      res.end("second middleware");
+    };
+    app.use(mw_1st);
+    app.use(event_1st);     // should skip this. will timeout if called
+    app.use(mw_2nd);
+    request(app)
+      .get('/')
+      .expect('second middleware')
+      .end(okay)
+  });
+  it("Should skip normal middlewares if next is called with an error"
+   , function (okay) {
+   var mw_1st = function (req, res, next) {
+     next(new Error('NO ZUO NO DIE, GAME OVER'));
+   };
+   var mw_2nd = function (req, res, next) {
+     //timeout
+   };
+   var event_1st = function (err, req, res, next) {
+     res.end('first event');
+   };
+   app.use(mw_1st);
+   app.use(mw_2nd);     // timeout of 2000ms exceeded
+   app.use(event_1st);
+   request(app)
+     .get('/')
+     .expect('first event')
+     .end(okay)
+  });
+});
+
+describe("Manual implement App Embedding As Middleware", function () {
+  var app, subApp;
+  beforeEach(function () {
+    app = new express();
+    subApp = new express();
   })
+  it("Should pass unhandled request to parent", function (okay) {
+    function mw_2nd (req, res, next) {
+      res.end('second middleware');
+    }
+    app.use(subApp);
+    app.use(mw_2nd);
+    request(app)
+      .get('/')
+      .expect('second middleware')
+      .end(okay)
+  });
+  it("Should pass unhandled error to parent", function (okay) {
+    function mw_1st(req, res, next) {
+      next("first middleware error");
+    }
+    function event_1st(err, req, res, next) {
+      res.end(err);
+    }
+    subApp.use(mw_1st);
+    app.use(subApp);
+    app.use(event_1st);
+    request(app)
+      .get('/')
+      .expect('first middleware error')
+      .end(okay)
+  });
 });
