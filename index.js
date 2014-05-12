@@ -1,5 +1,5 @@
 var http = require('http');
-var myLayer = require('./lib/layer')
+var MyLayer = require('./lib/layer')
 function ohmyexpress() {
   function myexpress(req, res, next) {
     myexpress.handle(req, res, next)
@@ -8,8 +8,9 @@ function ohmyexpress() {
   myexpress.stack = [];
 
   // add the middleware
-  myexpress.use = function (middleWare) {
-    this.stack.push(middleWare)
+  myexpress.use = function (path, middleWare) {
+    var myLayer = MyLayer(path, middleWare);
+    this.stack.push(myLayer);
   }
 
   myexpress.listen = function () {
