@@ -1,5 +1,5 @@
 var http = require('http');
-
+var myLayer = require('./lib/layer')
 function ohmyexpress() {
   function myexpress(req, res, next) {
     myexpress.handle(req, res, next)
@@ -22,10 +22,8 @@ function ohmyexpress() {
       , index = 0;
 
     function next(error) {
-
       // next callback
       var layer = stack[index++];
-
       // all done
       if (!layer) {
         // delegate to parent
