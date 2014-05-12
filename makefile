@@ -22,12 +22,14 @@ errorHander_t:
 appEmbed_t:
 	mocha verify/app_spec.js -R spec -g 'Implement App Embedding As Middleware'
 
-lesson5_t: layerAndMatch_t layer2Stack_t matchRequestPath_t
+lesson5_t: layerAndMatch_t layer2Stack_t MWCmatchRequestPath_t EHCmatchRequestPath_t
 layerAndMatch_t:
 	mocha verify/app_spec.js -R spec -g 'Layer class and the match method'
 layer2Stack_t:
 	mocha verify/app_spec.js -R spec -g 'app.use should add a Layer to stack'
-matchRequestPath_t:
-	mocha verify -R spec -g 'The middlewares called should match request path'
+MWCmatchRequestPath_t:
+	mocha verify/app_spec.js -R spec -g 'The middlewares called should match request path'
+EHCmatchRequestPath_t:
+	mocha verify/app_spec.js -R spec -g 'The error handlers called should match request path'
 
 .PHONY: lesson4_t lesson4_m lesson5_t
