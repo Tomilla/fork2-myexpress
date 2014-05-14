@@ -32,4 +32,9 @@ MWCmatchRequestPath_t:
 EHCmatchRequestPath_t:
 	mocha verify/app_spec.js -R spec -g 'The error handlers called should match request path'
 
+lesson6_t: pathParameter_t
+pathParameter_t:
+	mocha verify/app_spec.js -R spec -g 'Path parameters extraction'
+
+
 .PHONY: lesson4_t lesson4_m lesson5_t

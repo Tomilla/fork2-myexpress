@@ -1,5 +1,5 @@
-var http = require('http');
-var MyLayer = require('./lib/layer')
+var http = require('http')
+  , MyLayer = require('./lib/layer');
 
 function ohmyexpress() {
   function myexpress(req, res, next) {
