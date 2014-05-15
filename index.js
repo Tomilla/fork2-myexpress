@@ -1,6 +1,7 @@
 var http = require('http')
   , MyLayer = require('./lib/layer')
-  , makeRoute = require('./lib/route');
+  , makeRoute = require('./lib/route')
+  , method = require('methods');
 
 function ohmyexpress() {
   function myexpress(req, res, next) {
@@ -35,6 +36,15 @@ function ohmyexpress() {
     return this.stack.push(myLayer);
   };
 
+  method.forEach(function (method) {
+    myexpress[method] = function (path, handler) {
+      var prefixMatch = true;
+      var func = makeRoute(method, handler);
+      var myLayer = new MyLayer(path, func, prefixMatch);
+      return this.stack.push(myLayer);
+    }
+  });
+
   myexpress.listen = function () {
     var server = http.createServer(this);
     return server.listen.apply(server, arguments);
@@ -67,20 +77,20 @@ function ohmyexpress() {
         return;
       }
 
-	    req.params = {};  // by default, request.params should be a null {}.
-      if (!myLayer.match(req.url)) {
+      req.params = {};  // by default, res.params should be a null {}.
+      var matchPath = myLayer.match(req.url);
+      if (matchPath) {
+        req.params = matchPath.params;
+        // evaluate mpLayer has subPath property, if exist reset req.url
+        req.url = myLayer.subPath ? myLayer.subPath : req.url;
+      } else {
         return next(error);
       }
-      req.params = myLayer.match(req.url).params;
-	    if (myLayer.subPath) {
-	      req.url = myLayer.subPath;
-	    }
 
       try {
         var arity = myLayer.handle.length;
-
         if (error) {
-         if (arity === 4) {
+          if (arity === 4) {
             myLayer.handle(error, req, res, next);
           } else {
             next(error);
@@ -90,8 +100,8 @@ function ohmyexpress() {
         } else {
           next();
         }
-      } catch (event) {
-        next(event);
+      } catch (except) {
+        next(except);
       }
     }
     next();

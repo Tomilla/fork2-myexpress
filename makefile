@@ -42,4 +42,10 @@ haveHandleMethod_t:
 prePathTrim_t:
 	mocha verify/app_spec.js -R spec -g 'Prefix path trimming'
 
-.PHONY: lesson4_t lesson4_m lesson5_t
+lesson7_t: GET_t allHttpVerbs_t
+GET_t:
+	mocha verify/verbs_spec.js -R spec -g 'App get method'
+allHttpVerbs_t:
+	mocha verify/verbs_spec.js -R spec -g 'All http verbs'
+
+.PHONY: lesson4_t lesson4_m lesson5_t lesson7_t
