@@ -13,8 +13,17 @@ function ohmyexpress() {
     if (middleWare === undefined) {
       middleWare = path;
       path = '/';
-    }
     var myLayer = new MyLayer(path, middleWare);
+    } else if (typeof middleWare.handle === "function") {
+        var subExp = middleWare.stack[0];
+        var subMw = subExp.handle;
+        var subPath = subExp.layerPath;
+        var fullPath = path + subPath;
+        var myLayer = new MyLayer(fullPath, subMw);
+        myLayer.subPath = subPath;
+    } else {
+      var myLayer = new MyLayer(path, middleWare);
+    }
     this.stack.push(myLayer);
   }
 
@@ -29,9 +38,9 @@ function ohmyexpress() {
 
     function next(error) {
       // next callback
-      var layer = stack[index++];
+      var myLayer = stack[index++];
       // all done
-      if (!layer) {
+      if (!myLayer) {
         // delegate to parent
         if (out) return out(error);
         // unhandled error
@@ -50,19 +59,26 @@ function ohmyexpress() {
         return;
       }
 
+	    req.params = {};
+      if (!myLayer.match(req.url)) {
+        return next(error);
+      }
+      req.params = myLayer.match(req.url).params;
+	    if (myLayer.subPath) {
+	      req.url = myLayer.subPath;
+	    }
+
       try {
-        var arity = layer.handle.length;
-        if (!layer.match(req.url)) {
-          return next(error);
-        }
+        var arity = myLayer.handle.length;
+
         if (error) {
-          if (arity === 4) {
-            layer.handle(error, req, res, next);
+         if (arity === 4) {
+            myLayer.handle(error, req, res, next);
           } else {
             next(error);
           }
         } else if (arity < 4) {
-          layer.handle(req, res, next);
+          myLayer.handle(req, res, next);
         } else {
           next();
         }

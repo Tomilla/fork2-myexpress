@@ -32,9 +32,14 @@ MWCmatchRequestPath_t:
 EHCmatchRequestPath_t:
 	mocha verify/app_spec.js -R spec -g 'The error handlers called should match request path'
 
-lesson6_t: pathParameter_t
+lesson6_t: pathParameter_t req.params_t haveHandleMethod_t prePathTrim_t
 pathParameter_t:
 	mocha verify/app_spec.js -R spec -g 'Path parameters extraction'
-
+req.params_t:
+	mocha verify/app_spec.js -R spec -g 'Implement req.params'
+haveHandleMethod_t:
+	mocha verify/app_spec.js -R spec -g 'app should have the handle method'
+prePathTrim_t:
+	mocha verify/app_spec.js -R spec -g 'Prefix path trimming'
 
 .PHONY: lesson4_t lesson4_m lesson5_t
