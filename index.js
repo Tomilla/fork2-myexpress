@@ -1,5 +1,6 @@
 var http = require('http')
-  , MyLayer = require('./lib/layer');
+  , MyLayer = require('./lib/layer')
+  , makeRoute = require('./lib/route');
 
 function ohmyexpress() {
   function myexpress(req, res, next) {
@@ -13,26 +14,33 @@ function ohmyexpress() {
     if (middleWare === undefined) {
       middleWare = path;
       path = '/';
-    var myLayer = new MyLayer(path, middleWare);
+      var myLayer = new MyLayer(path, middleWare);
     } else if (typeof middleWare.handle === "function") {
-        var subExp = middleWare.stack[0];
-        var subMw = subExp.handle;
-        var subPath = subExp.layerPath;
-        var fullPath = path + subPath;
-        var myLayer = new MyLayer(fullPath, subMw);
-        myLayer.subPath = subPath;
+      var subExp = middleWare.stack[0]  //subset of myexpress
+      , subMw = subExp.handle           //subset of myexpress middleware
+      , subPath = subExp.layerPath      //subset of myexpress layer path
+      , fullPath = path + subPath
+      , myLayer = new MyLayer(fullPath, subMw);
+      myLayer.subPath = subPath;
     } else {
       var myLayer = new MyLayer(path, middleWare);
     }
     this.stack.push(myLayer);
   }
 
+  myexpress.get = function (path, handler) {
+    var prefixMatch = true;
+    var func = makeRoute("get", handler);
+    var myLayer = new MyLayer(path, func, prefixMatch);
+    return this.stack.push(myLayer);
+  };
+
   myexpress.listen = function () {
     var server = http.createServer(this);
     return server.listen.apply(server, arguments);
   }
 
-  myexpress.handle = function(req, res, out) {
+  myexpress.handle = function (req, res, out) {
     var stack = this.stack
       , index = 0;
 
@@ -59,7 +67,7 @@ function ohmyexpress() {
         return;
       }
 
-	    req.params = {};
+	    req.params = {};  // by default, request.params should be a null {}.
       if (!myLayer.match(req.url)) {
         return next(error);
       }
