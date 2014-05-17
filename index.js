@@ -1,7 +1,8 @@
 var http = require('http')
   , MyLayer = require('./lib/layer')
   , makeRoute = require('./lib/route')
-  , method = require('methods');
+  , method = require('methods')
+  , route = makeRoute();
 
 function ohmyexpress() {
   function myexpress(req, res, next) {
@@ -18,8 +19,8 @@ function ohmyexpress() {
       var myLayer = new MyLayer(path, middleWare);
     } else if (typeof middleWare.handle === "function") {
       var subExp = middleWare.stack[0]  //subset of myexpress
-      , subMw = subExp.handle           //subset of myexpress middleware
       , subPath = subExp.layerPath      //subset of myexpress layer path
+      , subMw = subExp.handle           //subset of myexpress middleware
       , fullPath = path + subPath
       , myLayer = new MyLayer(fullPath, subMw);
       myLayer.subPath = subPath;
@@ -27,14 +28,19 @@ function ohmyexpress() {
       var myLayer = new MyLayer(path, middleWare);
     }
     this.stack.push(myLayer);
-  }
-
-  myexpress.get = function (path, handler) {
-    var prefixMatch = true;
-    var func = makeRoute("get", handler);
-    var myLayer = new MyLayer(path, func, prefixMatch);
-    return this.stack.push(myLayer);
   };
+
+  myexpress.use = function (path, func) {
+    var myLayer = new MyLayer(path, func);
+    return this.stack.push(myLayer)
+  };
+
+//  myexpress.get = function (path, handler) {
+//    var prefixMatch = true;
+//    var func = makeRoute("get", handler);
+//    var myLayer = new MyLayer(path, func, prefixMatch);
+//    return this.stack.push(myLayer);
+//  };
 
   method.forEach(function (method) {
     myexpress[method] = function (path, handler) {

@@ -48,4 +48,8 @@ GET_t:
 allHttpVerbs_t:
 	mocha verify/verbs_spec.js -R spec -g 'All http verbs'
 
-.PHONY: lesson4_t lesson4_m lesson5_t lesson7_t
+lesson8_t:
+	mocha verify/route_spec.js -R spec -g 'Add handlers to a route'
+	mocha verify/route_spec.js -R spec -g 'Implement Route Handlers Invokation'
+
+.PHONY: lesson4_t lesson4_m lesson5_t lesson7_t lesson8_t
