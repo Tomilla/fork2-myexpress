@@ -1,7 +1,8 @@
 var http = require('http')
   , MyLayer = require('./lib/layer')
   , makeRoute = require('./lib/route')
-  , methods = require('methods').concat('all');
+  , methods = require('methods');
+methods.concat('all');
 
 function ohmyexpress() {
 
@@ -47,7 +48,8 @@ function ohmyexpress() {
 
   methods.forEach(function (method) {
     myexpress[method] = function (path, handler) {
-      this.route(path)[method](handler);
+      var route = myexpress.route(path);
+        route[method](handler);
       return this;
     }
   });
