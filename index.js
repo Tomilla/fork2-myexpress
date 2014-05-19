@@ -1,6 +1,8 @@
 var http = require('http')
   , MyLayer = require('./lib/layer')
   , makeRoute = require('./lib/route')
+  , myRequest = require('./lib/request')
+  , myResponse = require('./lib/response')
   , methods = require('methods');
 methods.concat('all');
 
@@ -31,6 +33,14 @@ function ohmyexpress() {
     this.stack.push(myLayer);
   };
 
+  methods.forEach(function (method) {
+    myexpress[method] = function (path, handler) {
+      var route = myexpress.route(path);
+        route[method](handler);
+      return this;
+    }
+  });
+
 //  myexpress.get = function (path, handler) {
 //    var prefixMatch = true;
 //    var func = makeRoute("get", handler);
@@ -45,16 +55,6 @@ function ohmyexpress() {
 //    this.stack.push(myLayer);
     return route;
   };
-
-  methods.forEach(function (method) {
-    myexpress[method] = function (path, handler) {
-      var route = myexpress.route(path);
-        route[method](handler);
-      return this;
-    }
-  });
-
-
 
   myexpress.listen = function () {
     var server = http.createServer(this);
@@ -117,6 +117,12 @@ function ohmyexpress() {
     }
     next();
   };
+
+  myexpress.monkey_patch = function(req, res) {
+    req.__proto__ = myRequest;
+    res.__prote__ = myResponse;
+  };
+
   return myexpress;
 }
 module.exports = ohmyexpress;
