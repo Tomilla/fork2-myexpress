@@ -8,9 +8,9 @@
 
 ###lesson  8 [Route Chaining][8] √
 
-###lesson  9 [Express Dependency Injection] ☹
+###lesson  9 [Express Dependency Injection][9] ☹
 
-###lesson 10 [Monkey Patching Request And Response] ✈
+###lesson 10 [Monkey Patching Request And Response][10] ✈
 
 [4]:https://gist.github.com/hayeah/6bbe2bebf58ec9ae889a
 [5]:https://gist.github.com/hayeah/5933719969b041b1cfff

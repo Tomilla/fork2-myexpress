@@ -51,5 +51,12 @@ allHttpVerbs_t:
 lesson8_t:
 	mocha verify/route_spec.js -R spec -g 'Add handlers to a route'
 	mocha verify/route_spec.js -R spec -g 'Implement Route Handlers Invokation'
+	mocha verify/route_spec.js -R spec -g 'Implement Verbs For Route'
+	mocha verify/route_spec.js -R spec -g 'Implement app.route'
+	mocha verify/route_spec.js -R spec -g 'Implement Verbs For App'
+
+lesson9_t:
+	mocha verify/monkey_spec.js -R spec -g "Monkey patch before serving"
+	mocha verify/monkey_spec.js -R spec -g "Setting req.app"
 
 .PHONY: lesson4_t lesson4_m lesson5_t lesson7_t lesson8_t

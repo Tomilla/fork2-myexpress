@@ -10,6 +10,7 @@ function ohmyexpress() {
 
   function myexpress(req, res, next) {
     myexpress.handle(req, res, next);
+    myexpress.monkey_patch(req, res);
   }
 
   myexpress.stack = [];
@@ -63,15 +64,34 @@ function ohmyexpress() {
 
   myexpress.handle = function (req, res, out) {
     var stack = this.stack
+      , subApp = undefined
       , index = 0;
+
+      req.params = {};  // by default, res.params should be a null {}.
 
     function next(error) {
       // next callback
       var myLayer = stack[index++];
+      if (myLayer) {
+        var matchPath = myLayer.match(req.url);
+        if (matchPath) {
+          req.app = myexpress;
+          req.params = matchPath.params;
+          var func = myLayer.handle;
+          // evaluate mpLayer has subPath property, if exist reset req.url
+          req.url = myLayer.subUrl ? myLayer.subUrl : req.url;
+        } else {
+          return next(error);
+        }
+      }
+
       // all done
-      if (!myLayer) {
+      if (!func) {
         // delegate to parent
-        if (out) return out(error);
+        if (out){
+          subApp = myexpress;
+          return out(error);
+        }
         // unhandled error
         if (error) {
           // default to 500
@@ -88,26 +108,19 @@ function ohmyexpress() {
         return;
       }
 
-      req.params = {};  // by default, res.params should be a null {}.
-      var matchPath = myLayer.match(req.url);
-      if (matchPath) {
-        req.params = matchPath.params;
-        // evaluate mpLayer has subPath property, if exist reset req.url
-        req.url = myLayer.subPath ? myLayer.subPath : req.url;
-      } else {
-        return next(error);
-      }
-
       try {
-        var arity = myLayer.handle.length;
+        var arity = func.length;
+        if (subApp != undefined) {
+          req.app = subApp;
+        }
         if (error) {
           if (arity === 4) {
-            myLayer.handle(error, req, res, next);
+            func(error, req, res, next);
           } else {
             next(error);
           }
         } else if (arity < 4) {
-          myLayer.handle(req, res, next);
+          func(req, res, next);
         } else {
           next();
         }
@@ -121,6 +134,8 @@ function ohmyexpress() {
   myexpress.monkey_patch = function(req, res) {
     req.__proto__ = myRequest;
     res.__prote__ = myResponse;
+    req.res = res;
+    res.req = req;
   };
 
   return myexpress;
