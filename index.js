@@ -14,7 +14,7 @@ function ohmyexpress() {
   myexpress.stack = [];
 
   // add the middleware
-  myexpress.use = function (path, middleWare) {
+  myexpress.use = function (path, middleWare, prefix) {
     if (middleWare === undefined) {
       middleWare = path;
       path = '/';
@@ -24,10 +24,10 @@ function ohmyexpress() {
       , subPath = subExp.layerPath      //subset of myexpress layer path
       , subMw = subExp.handle           //subset of myexpress middleware
       , fullPath = path + subPath
-      , myLayer = new MyLayer(fullPath, subMw);
+      , myLayer = new MyLayer(fullPath, subMw, prefix);
       myLayer.subUrl = subPath;
     } else {
-      var myLayer = new MyLayer(path, middleWare);
+      var myLayer = new MyLayer(path, middleWare, prefix);
     }
     this.stack.push(myLayer);
   };
@@ -48,8 +48,9 @@ function ohmyexpress() {
 //  };
 
   myexpress.route = function (path) {
+    var prefix = true;
     var route = makeRoute();
-    myexpress.use(path, route);
+    myexpress.use(path, route, prefix);
 //    var myLayer = new MyLayer(path, route);
 //    this.stack.push(myLayer);
     return route;

@@ -23,6 +23,7 @@
     "coffee-script": "^1.7.1"
   },
   "dependencies": {
-    "methods": "^0.1.0"
+    "methods": "^0.1.0",
+    "mime": "^1.2.11"
   }
 }
