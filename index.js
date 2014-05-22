@@ -3,14 +3,12 @@ var http = require('http')
   , makeRoute = require('./lib/route')
   , myRequest = require('./lib/request')
   , myResponse = require('./lib/response')
-  , methods = require('methods');
-methods.concat('all');
+  , methods = require('methods').concat('all');
 
 function ohmyexpress() {
 
   function myexpress(req, res, next) {
     myexpress.handle(req, res, next);
-    myexpress.monkey_patch(req, res);
   }
 
   myexpress.stack = [];
@@ -27,7 +25,7 @@ function ohmyexpress() {
       , subMw = subExp.handle           //subset of myexpress middleware
       , fullPath = path + subPath
       , myLayer = new MyLayer(fullPath, subMw);
-      myLayer.subPath = subPath;
+      myLayer.subUrl = subPath;
     } else {
       var myLayer = new MyLayer(path, middleWare);
     }
@@ -63,11 +61,12 @@ function ohmyexpress() {
   }
 
   myexpress.handle = function (req, res, out) {
+    myexpress.monkey_patch(req, res);
     var stack = this.stack
       , subApp = undefined
       , index = 0;
 
-      req.params = {};  // by default, res.params should be a null {}.
+    req.params = {};  // by default, res.params should be a null {}.
 
     function next(error) {
       // next callback
@@ -78,7 +77,8 @@ function ohmyexpress() {
           req.app = myexpress;
           req.params = matchPath.params;
           var func = myLayer.handle;
-          // evaluate mpLayer has subPath property, if exist reset req.url
+          // evaluate mpLayer has subPath property
+          // , if exist reset req.url
           req.url = myLayer.subUrl ? myLayer.subUrl : req.url;
         } else {
           return next(error);
@@ -133,7 +133,7 @@ function ohmyexpress() {
 
   myexpress.monkey_patch = function(req, res) {
     req.__proto__ = myRequest;
-    res.__prote__ = myResponse;
+    res.__proto__ = myResponse;
     req.res = res;
     res.req = req;
   };
