@@ -51,8 +51,8 @@ function ohmyexpress() {
     var prefix = true;
     var route = makeRoute();
     myexpress.use(path, route, prefix);
-//    var myLayer = new MyLayer(path, route);
-//    this.stack.push(myLayer);
+    //var myLayer = new MyLayer(path, route);
+    //this.stack.push(myLayer);
     return route;
   };
 
@@ -93,13 +93,24 @@ function ohmyexpress() {
           subApp = myexpress;
           return out(error);
         }
-        // unhandled error
+
+        // exist unhandled error
         if (error) {
-          // default to 500
+          // filter explicit error
+          if (error.statusCode == 406) {
+              res.writeHead(406, {
+                'Content-Type': 'text/html'
+              });
+              res.end();
+          } else {
+          // when error is undefined
+          // , default statusCode is 500
           res.writeHead(500, {
             'Content-Type': 'text/html'
           });
           res.end();
+          }
+        // not exist error
         } else {
           res.writeHead(404, {
             'Content-Type': 'text/html'

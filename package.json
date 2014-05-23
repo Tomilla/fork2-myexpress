@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "methods": "^0.1.0",
-    "mime": "^1.2.11"
+    "mime": "^1.2.11",
+    "accepts": "^1.0.1"
   }
 }

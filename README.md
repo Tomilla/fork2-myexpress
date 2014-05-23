@@ -1,18 +1,20 @@
-###lesson  4 [Building The Middlewares Stack][4] √
+###Lesson  4 [Building The Middlewares Stack][4] √
 
-###lesson  5 [Simple Request Path Matcher][5] √
+###Lesson  5 [Simple Request Path Matcher][5] √
 
-###lesson  6 [Fancy Request Path Matcher][6] √
+###Lesson  6 [Fancy Request Path Matcher][6] √
 
-###lesson  7 [HTTP Verbs][7] √
+###Lesson  7 [HTTP Verbs][7] √
 
-###lesson  8 [Route Chaining][8] √
+###Lesson  8 [Route Chaining][8] √
 
-###lesson  9 [Express Dependency Injection][9] ☹
+###Lesson  9 [Express Dependency Injection][9] ☹
 
-###lesson 10 [Monkey Patching Request And Response][10] √
+###Lesson 10 [Monkey Patching Request And Response][10] √
 
-###lesson 11 [Content Negotiation] ✈
+###Lesson 11 [Content Negotiation][11] √
+
+###Lesson 12 [req.send and Conditional Get] ✈
 
 [4]:https://gist.github.com/hayeah/6bbe2bebf58ec9ae889a
 [5]:https://gist.github.com/hayeah/5933719969b041b1cfff
@@ -22,3 +24,4 @@
 [9]:https://gist.github.com/hayeah/ff0c23ef1eb39f4dcd3a
 [10]:https://gist.github.com/hayeah/b136e7631deaa362a716
 [11]:https://gist.github.com/hayeah/5b4f082bfc8ec24a268a
+[12]:
