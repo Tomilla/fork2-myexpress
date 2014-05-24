@@ -62,5 +62,6 @@ lesson12_t:
 	mocha verify/send_spec.js -R spec -g "sets content-length"
 	mocha verify/send_spec.js -R spec -g "sets status code"
 	mocha verify/send_spec.js -R spec -g "JSON response"
+	mocha verify/send_spec.js -R spec -g "Calculate Etag"
 
 .PHONY: lesson12_t
