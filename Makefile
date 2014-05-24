@@ -60,5 +60,6 @@ lesson11_t:
 lesson12_t:
 	mocha verify/send_spec.js -R spec -g "support buffer and string body"
 	mocha verify/send_spec.js -R spec -g "sets content-length"
+	mocha verify/send_spec.js -R spec -g "sets status code"
 
 .PHONY: lesson12_t
