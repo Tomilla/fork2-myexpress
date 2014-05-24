@@ -57,4 +57,7 @@ lesson11_t:
 	mocha verify/nego_spec.js -R spec -g "Setting Content-Type"
 	mocha verify/nego_spec.js -R spec -g "req.format"
 
+lesson12_t:
+	mocha verify/send_spec.js -R spec -g "support buffer and string body"
+
 .PHONY: lesson11_t

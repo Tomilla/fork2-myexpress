@@ -14,7 +14,7 @@
 
 ###Lesson 11 [Content Negotiation][11] √
 
-###Lesson 12 [req.send and Conditional Get] ✈
+###Lesson 12 [req.send and Conditional Get][12] ✈ ♫ ♬ ♪ ♩ ♭ ♪ ♮ ♯
 
 [4]:https://gist.github.com/hayeah/6bbe2bebf58ec9ae889a
 [5]:https://gist.github.com/hayeah/5933719969b041b1cfff
@@ -24,4 +24,4 @@
 [9]:https://gist.github.com/hayeah/ff0c23ef1eb39f4dcd3a
 [10]:https://gist.github.com/hayeah/b136e7631deaa362a716
 [11]:https://gist.github.com/hayeah/5b4f082bfc8ec24a268a
-[12]:
+[12]:https://gist.github.com/hayeah/095cb6bfa54879efddcf
