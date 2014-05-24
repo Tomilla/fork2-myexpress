@@ -63,5 +63,6 @@ lesson12_t:
 	mocha verify/send_spec.js -R spec -g "sets status code"
 	mocha verify/send_spec.js -R spec -g "JSON response"
 	mocha verify/send_spec.js -R spec -g "Calculate Etag"
+	mocha verify/send_spec.js -R spec -g "ETag 304"
 
 .PHONY: lesson12_t
