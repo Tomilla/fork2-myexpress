@@ -72,5 +72,6 @@ lesson13_t:
 	mocha verify/sendfile_spec.js -R spec -g "stream file data"
 	mocha verify/sendfile_spec.js -R spec -g "content headers"
 	mocha verify/sendfile_spec.js -R spec -g "path checking"
+	mocha verify/sendfile_spec.js -R spec -g "Range support"
 
 .PHONY: lesson13_t
