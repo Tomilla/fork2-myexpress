@@ -150,6 +150,12 @@ function ohmyexpress() {
     res.req = req;
   };
 
+  myexpress._factories = {};
+
+  myexpress.factory = function(name, func) {
+    myexpress._factories[name] = func;
+  }
+
   return myexpress;
 }
 module.exports = ohmyexpress;
