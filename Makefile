@@ -66,4 +66,10 @@ lesson12_t:
 	mocha verify/send_spec.js -R spec -g "ETag 304"
 	mocha verify/send_spec.js -R spec -g "Last-Modified 304"
 
-.PHONY: lesson12_t
+lesson13_t:
+	mocha verify/sendfile_spec.js -R spec -g "stream data"
+	mocha verify/sendfile_spec.js -R spec -g "can stream data to client"
+	mocha verify/sendfile_spec.js -R spec -g "stream file data"
+	mocha verify/sendfile_spec.js -R spec -g "content headers"
+
+.PHONY: lesson13_t
