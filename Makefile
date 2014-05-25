@@ -46,6 +46,8 @@ lesson8_t:
 	mocha verify/route_spec.js -R spec -g 'Implement Verbs For App'
 
 lesson9_t:
+	mocha verify/di_spec.js -R spec -g "app.factory"
+	mocha verify/di_spec.js -R spec -g Handler "Dependencies Analysis"
 
 lesson10_t:
 	mocha verify/monkey_spec.js -R spec -g "Setting req.app"
