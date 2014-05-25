@@ -71,5 +71,6 @@ lesson13_t:
 	mocha verify/sendfile_spec.js -R spec -g "can stream data to client"
 	mocha verify/sendfile_spec.js -R spec -g "stream file data"
 	mocha verify/sendfile_spec.js -R spec -g "content headers"
+	mocha verify/sendfile_spec.js -R spec -g "path checking"
 
 .PHONY: lesson13_t
