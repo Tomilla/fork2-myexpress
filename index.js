@@ -3,6 +3,7 @@ var http = require('http')
   , makeRoute = require('./lib/route')
   , myRequest = require('./lib/request')
   , myResponse = require('./lib/response')
+  , myInjector = require('./lib/injector.js')
   , methods = require('methods').concat('all');
 
 function ohmyexpress() {
@@ -152,9 +153,13 @@ function ohmyexpress() {
 
   myexpress._factories = {};
 
+  myexpress.inject = function(_handler) {
+    return myInjector(_handler, myexpress)
+  };
+
   myexpress.factory = function(name, func) {
     myexpress._factories[name] = func;
-  }
+  };
 
   return myexpress;
 }
