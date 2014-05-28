@@ -50,6 +50,8 @@ lesson9_t:
 	mocha verify/di_spec.js -R spec -g "Handler Dependencies Analysis"
 	mocha verify/di_spec.js -R spec -g "load named dependencies"
 	mocha verify/di_spec.js -R spec -g "dependencies error handling"
+	mocha verify/di_spec.js -R spec -g "load bulitin dependencies"
+	mocha verify/di_spec.js -R spec -g "pass req and res to factories"
 
 lesson10_t:
 	mocha verify/monkey_spec.js -R spec -g "Setting req.app"
