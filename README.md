@@ -8,7 +8,7 @@
 
 >#####Lesson  8 [Route Chaining][8] √
 
->#####Lesson  9 [Express Dependency Injection][9] ♫ 	♬ 	♪ 	♩ 	♭ 	♪ 	♮ 	♯
+>#####Lesson  9 [Express Dependency Injection][9] √
 
 >#####Lesson 10 [Monkey Patching Request And Response][10] √
 
