@@ -52,6 +52,7 @@ lesson9_t:
 	mocha verify/di_spec.js -R spec -g "dependencies error handling"
 	mocha verify/di_spec.js -R spec -g "load bulitin dependencies"
 	mocha verify/di_spec.js -R spec -g "pass req and res to factories"
+	mocha verify/di_spec.js -R spec -g "Implement Injector Invokation"
 
 lesson10_t:
 	mocha verify/monkey_spec.js -R spec -g "Setting req.app"
