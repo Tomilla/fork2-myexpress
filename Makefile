@@ -47,7 +47,8 @@ lesson8_t:
 
 lesson9_t:
 	mocha verify/di_spec.js -R spec -g "app.factory"
-	mocha verify/di_spec.js -R spec -g Handler "Dependencies Analysis"
+	mocha verify/di_spec.js -R spec -g "Handler Dependencies Analysis"
+	mocha verify/di_spec.js -R spec -g "load named dependencies"
 
 lesson10_t:
 	mocha verify/monkey_spec.js -R spec -g "Setting req.app"
