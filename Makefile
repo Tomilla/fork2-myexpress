@@ -1,3 +1,5 @@
+all: lesson3 lesson4_t lesson5_t lesson5_t lesson6_t lesson8_t lesson9_t lesson10_t lesson11_t lesson12_t lesson13_t
+
 lesson3:
 	mocha test/app_spec.js -R spec -g 'as handler to http.createServer'
 	mocha test/app_spec.js -R spec -g 'Defining the app.Listen Method'
